@@ -25,14 +25,23 @@ module ID_EX (input clk,
     
 
     always @(posedge clk) begin
-        ex_regfile_we <= id_ex_regfile_we;
-        ex_regfile_waddr <= id_ex_regfile_waddr;
-        ex_alu_op <= id_ex_alu_op;
-        ex_alu_src1 <= id_ex_alu_src1;
-        ex_alu_src2 <= id_ex_alu_src2;
+        if (rst == `RstEnable) begin
+            ex_regfile_we <= `WriteDisable;
+            ex_alu_op <= `EXE_NOP_OP;
+            ex_mem_we <= `WriteDisable;
+            ex_mem_re <= `ReadDisable;
+        end
+        else begin
+            ex_regfile_we <= id_ex_regfile_we;
+            ex_regfile_waddr <= id_ex_regfile_waddr;
+            ex_alu_op <= id_ex_alu_op;
+            ex_alu_src1 <= id_ex_alu_src1;
+            ex_alu_src2 <= id_ex_alu_src2;
 
-        ex_mem_re <= id_ex_mem_re;
-        ex_mem_we <= id_ex_mem_we;
+            ex_mem_re <= id_ex_mem_re;
+            ex_mem_we <= id_ex_mem_we;
+        end
+
     end
 
 

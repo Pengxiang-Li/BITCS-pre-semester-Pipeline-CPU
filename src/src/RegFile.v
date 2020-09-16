@@ -1,7 +1,8 @@
 `timescale 1ns / 1ps
 `include "defines.v"
 
-module RegFile (input rst,
+module RegFile (input clk,
+                input rst,
                 //mem_wb
                 input wb_re,
                 input wb_we,
@@ -17,8 +18,9 @@ module RegFile (input rst,
                 );
 
     reg [`RegBus] regs[0:`RegNum-1];
+
     //write data
-    always @(*) begin
+    always @(posedge clk) begin
         if (rst == `RstEnable) begin
             regs[0] <= 0;
         end

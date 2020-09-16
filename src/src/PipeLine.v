@@ -38,7 +38,8 @@ module PipeLine (input clk,
     
     wire [`RegAddrBus] wb_addr;
     wire [`WordWidth] wb_data;
-    
+
+    wire ex_regfile_we;
     PC  u_PC (
     .clk                            (clk),
     .rst                            (rst),
@@ -151,7 +152,7 @@ module PipeLine (input clk,
     .mem_mem_we                            (mem_mem_we),
     .mem_mem_addr            (mem_mem_addr),
     .mem_regfile_re                        (mem_regfile_re),
-    .ex_mem_regfile_we                        (ex_mem_regfile_we),
+    .mem_regfile_we                        (mem_regfile_we),
     .mem_regfile_waddr        (mem_regfile_waddr),
     .mem_data                 (mem_data),
     
@@ -177,6 +178,7 @@ module PipeLine (input clk,
     );
     
     RegFile  u_RegFile (
+    .clk(clk),
     .rst                     (rst),
     .wb_re                   (wb_re),
     .wb_we                   (wb_we),

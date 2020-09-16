@@ -42,8 +42,6 @@
 `define EXE_SRLV  6'b000110
 `define EXE_SRA  6'b000011
 `define EXE_SRAV  6'b000111
-`define EXE_SYNC  6'b001111
-`define EXE_PREF  6'b110011
 
 `define EXE_MOVZ  6'b001010
 `define EXE_MOVN  6'b001011
@@ -85,8 +83,6 @@
 `define EXE_MTLO_OP  8'b00010011
 
 `define EXE_NOP_OP    8'b00000000
-
-
 
 //AluSel
 `define EXE_RES_LOGIC 3'b001
