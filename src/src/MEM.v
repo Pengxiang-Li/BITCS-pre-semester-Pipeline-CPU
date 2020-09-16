@@ -7,10 +7,8 @@ module MEM (input rst,
             input mem_mem_we,
             input [`MEMAddrBus] mem_mem_addr,
             //reg
-            input mem_regfile_re,
             input mem_regfile_we,
             input [`RegAddrBus] mem_regfile_waddr,
-            output reg mem_wb_regfile_re,
             output reg mem_wb_regfile_we,
             output reg[`RegAddrBus] mem_wb_regfile_addr,
             
@@ -19,7 +17,6 @@ module MEM (input rst,
             );
 
             always @(*) begin
-                mem_wb_regfile_re <= mem_regfile_re;
                 mem_wb_regfile_we <= mem_regfile_we;
                 mem_wb_regfile_addr <= mem_regfile_waddr;
                 mem_wb_data <= mem_data;

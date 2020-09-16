@@ -4,7 +4,6 @@
 module RegFile (input clk,
                 input rst,
                 //mem_wb
-                input wb_re,
                 input wb_we,
                 input [`RegAddrBus] wb_addr,
                 input [`WordWidth] wb_data,
@@ -36,24 +35,38 @@ module RegFile (input clk,
 
     //read data1
     always @(*) begin
-        if (regfile_re1 == `ReadEnable) begin
-            if ((wb_we == `WriteEnable) && (wb_addr == regfile_raddr1)) begin
-                regfile_rdata1 <= wb_data;
-            end
-            else begin
-                regfile_rdata1 <= regs[regfile_raddr1];
+        if (rst == `RstEnable) begin
+            regfile_rdata1 <= 0;
+        end
+        else begin
+            regfile_rdata1 <= 0;
+
+            if (regfile_re1 == `ReadEnable) begin
+                if ((wb_we == `WriteEnable) && (wb_addr == regfile_raddr1)) begin
+                    regfile_rdata1 <= wb_data;
+                end
+                else begin
+                    regfile_rdata1 <= regs[regfile_raddr1];
+                end
             end
         end
     end
 
     //read data2
     always @(*) begin
-        if (regfile_re2 == `ReadEnable) begin
-            if ((wb_we == `WriteEnable) && (wb_addr == regfile_raddr2)) begin
-                regfile_rdata2 <= wb_data;
-            end
-            else begin
-                regfile_rdata2 <= regs[regfile_raddr2];
+        if (rst == `RstEnable) begin
+            regfile_rdata2 <= 0;
+        end
+        else begin
+            regfile_rdata2 <= 0;
+
+            if (regfile_re2 == `ReadEnable) begin
+                if ((wb_we == `WriteEnable) && (wb_addr == regfile_raddr2)) begin
+                    regfile_rdata2 <= wb_data;
+                end
+                else begin
+                    regfile_rdata2 <= regs[regfile_raddr2];
+                end
             end
         end
     end

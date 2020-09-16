@@ -14,9 +14,13 @@ module HILOReg (input rst,
             hi_data_o <= `ZeroWord;
             lo_data_o <= `ZeroWord;
         end
-        else if (we == `WriteEnable) begin
-            hi_data_o <= hi_data_i;
-            lo_data_o <= lo_data_i;
+        else  begin
+            hi_data_o <= `ZeroWord;
+            lo_data_o <= `ZeroWord;
+            if (we == `WriteEnable) begin
+                hi_data_o <= hi_data_i;
+                lo_data_o <= lo_data_i;
+            end
         end
     end
             

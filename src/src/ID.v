@@ -43,13 +43,21 @@ module ID (input rst,
     always @(*) begin
       
         if (rst == `RstEnable) begin
+            id_ex_mem_re <= `ReadDisable;
+            id_ex_mem_we <= `WriteDisable;
             id_ex_alu_op <= `EXE_NOP_OP;
             id_ex_regfile_we <= `WriteDisable;
+            id_ex_regfile_waddr <= 0;
             regfile_re1 <= `ReadDisable;
             regfile_re2 <= `ReadDisable;
-            imm <= `ZeroWord;
+            regfile_raddr1 <= 0;
+            regfile_raddr2 <= 0;
+            imm <= 0;
         end
         else begin
+            id_ex_mem_re <= `ReadDisable;
+            id_ex_mem_we <= `WriteDisable;
+
             id_ex_alu_op <= `EXE_NOP_OP;
             id_ex_regfile_we <= `WriteDisable;
             id_ex_regfile_waddr <= id_inst[15:11];
@@ -60,7 +68,7 @@ module ID (input rst,
             regfile_raddr2 <= id_inst[20:16];
 
             imm <= `ZeroWord;
-
+        
             case (op)
                 `EXE_SPECIAL_INST: begin
                     case (funct)

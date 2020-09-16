@@ -25,6 +25,7 @@ module PipeLine (input clk,
     wire [`RegBus] ex_alu_src1, ex_alu_src2;
     wire [`RegAddrBus] ex_regfile_waddr;
 
+    wire ex_mem_re, ex_mem_we;
     wire ex_mem_regfile_we;
     
     wire mem_mem_re, mem_mem_we;
@@ -109,7 +110,6 @@ module PipeLine (input clk,
     
     EX  u_EX (
     .rst                         (rst),
-    .ex_regfile_re(ex_regfile_re),
     .ex_regfile_we               (ex_regfile_we),
     .ex_regfile_waddr  (ex_regfile_waddr),
     .ex_mem_re                   (ex_mem_re),
@@ -133,13 +133,11 @@ module PipeLine (input clk,
     .ex_mem_mem_addr           (ex_mem_mem_addr),
     .ex_mem_regfile_waddr        (ex_mem_regfile_waddr),
     .ex_alu_result               (ex_alu_result),
-    .ex_regfile_re                      (ex_regfile_re),
     .ex_mem_regfile_we                      (ex_mem_regfile_we),
     
     .mem_mem_re                         (mem_mem_re),
     .mem_mem_we                         (mem_mem_we),
     .mem_mem_addr      (mem_mem_addr),
-    .mem_regfile_re                     (mem_regfile_re),
     .mem_regfile_we                     (mem_regfile_we),
     .mem_regfile_waddr  (mem_regfile_waddr),
     .mem_data           (mem_data)
@@ -151,12 +149,10 @@ module PipeLine (input clk,
     .mem_mem_re                            (mem_mem_re),
     .mem_mem_we                            (mem_mem_we),
     .mem_mem_addr            (mem_mem_addr),
-    .mem_regfile_re                        (mem_regfile_re),
     .mem_regfile_we                        (mem_regfile_we),
     .mem_regfile_waddr        (mem_regfile_waddr),
     .mem_data                 (mem_data),
     
-    .mem_wb_regfile_re                     (mem_wb_regfile_re),
     .mem_wb_regfile_we                     (mem_wb_regfile_we),
     .mem_wb_regfile_addr  (mem_wb_regfile_addr),
     .mem_wb_data              (mem_wb_data)
@@ -166,12 +162,10 @@ module PipeLine (input clk,
     MEM_WB  u_MEM_WB (
     .clk                                (clk),
     .rst                                (rst),
-    .mem_wb_regfile_re                  (mem_wb_regfile_re),
     .mem_wb_regfile_we                  (mem_wb_regfile_we),
     .mem_wb_regfile_addr  (mem_wb_regfile_addr),
     .mem_wb_data           (mem_wb_data),
     
-    .wb_re                              (wb_re),
     .wb_we                              (wb_we),
     .wb_addr           (wb_addr),
     .wb_data            (wb_data)
@@ -180,7 +174,6 @@ module PipeLine (input clk,
     RegFile  u_RegFile (
     .clk(clk),
     .rst                     (rst),
-    .wb_re                   (wb_re),
     .wb_we                   (wb_we),
     .wb_addr (wb_addr),
     .wb_data(wb_data),

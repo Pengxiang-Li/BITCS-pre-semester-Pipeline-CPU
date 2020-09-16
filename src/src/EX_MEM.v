@@ -14,9 +14,7 @@ module EX_MEM (input clk,
                output reg[`MEMAddrBus] mem_mem_addr,
 
                //reg
-               input ex_regfile_re,
                input ex_mem_regfile_we,
-               output reg mem_regfile_re,
                output reg mem_regfile_we,
                output reg[`RegAddrBus] mem_regfile_waddr,
 
@@ -30,7 +28,6 @@ module EX_MEM (input clk,
         mem_mem_we <= ex_mem_we;
         mem_mem_addr <= ex_mem_mem_addr;
 
-        mem_regfile_re <= ex_regfile_re;
         mem_regfile_we <= ex_mem_regfile_we;
 
         mem_data <= ex_alu_result;
