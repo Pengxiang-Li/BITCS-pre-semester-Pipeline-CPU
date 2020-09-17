@@ -10,6 +10,7 @@ module MEM_WB (input clk,
                output reg[`RegAddrBus] wb_addr,
                output reg[`WordWidth] wb_data);
     
+    
     always @(posedge clk) begin
         wb_we   <= mem_wb_regfile_we;
         wb_addr <= mem_wb_regfile_addr;

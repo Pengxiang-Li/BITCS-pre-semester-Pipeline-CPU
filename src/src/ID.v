@@ -173,6 +173,67 @@ module ID (input rst,
                             regfile_re2    <= `ReadEnable;
                             imm <= {27'b0, id_inst[10:6]};
                         end
+
+                        // Donghai Liao
+                        `EXE_SLT: begin                 // pass      
+                            id_ex_alu_op        <= `EXE_SLT_OP;
+                            id_ex_regfile_we    <= `WriteEnable;
+
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                             
+                        end
+
+                        `EXE_SLTU: begin                // pass
+                            id_ex_alu_op        <= `EXE_SLTU_OP;
+                            id_ex_regfile_we    <= `WriteEnable;
+
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
+                        `EXE_ADD: begin                 // pass
+                            id_ex_alu_op        <= `EXE_ADD_OP;
+                            id_ex_regfile_we    <= `WriteEnable;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
+                        `EXE_ADDU: begin                // pass
+                            id_ex_alu_op        <= `EXE_ADDU_OP;
+                            id_ex_regfile_we    <= `WriteEnable;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
+                        `EXE_SUB: begin                 // pass
+                            id_ex_alu_op        <= `EXE_SUB_OP;
+                            id_ex_regfile_we    <= `WriteEnable;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
+                        `EXE_SUBU: begin               // pass
+                            id_ex_alu_op        <= `EXE_SUBU_OP;
+                            id_ex_regfile_we    <= `WriteEnable;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
+                        `EXE_MULT: begin               // pass
+                            id_ex_alu_op        <= `EXE_MULT_OP;
+                            id_ex_regfile_we    <= `WriteDisable;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
+                        `EXE_MULTU: begin              // pass
+                            id_ex_alu_op        <= `EXE_MULTU_OP;
+                            id_ex_regfile_we    <= `WriteDisable;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
                         // `EXE_SYNC: begin
                         //     id_ex_regfile_we <= `WriteDisable;
                         //     id_ex_alu_op <= `EXE_NOP_OP;
@@ -183,6 +244,32 @@ module ID (input rst,
                         default: begin
                             
                         end
+                    endcase
+                end
+                `EXE_SPECIAL2_INST: begin
+                    case (funct)
+                        `EXE_CLZ: begin                 // pass
+                            id_ex_regfile_we <= `WriteEnable;
+                            id_ex_alu_op <= `EXE_CLZ_OP;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadDisable;
+                        end
+
+                        `EXE_CLO: begin                 // pass
+                            id_ex_regfile_we <= `WriteEnable;
+                            id_ex_alu_op <= `EXE_CLO_OP;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadDisable;
+                        end
+                        
+                        `EXE_MUL: begin                 // pass
+                            id_ex_regfile_we <= `WriteEnable;
+                            id_ex_alu_op <= `EXE_MUL_OP;
+                            regfile_re1         <= `ReadEnable;
+                            regfile_re2         <= `ReadEnable;
+                        end
+
+
                     endcase
                 end
                 `EXE_ORI: begin//pass
@@ -219,6 +306,55 @@ module ID (input rst,
                     regfile_re1    <= `ReadEnable;
                     regfile_re2    <= `ReadDisable;
                     imm <= {id_inst[15:0], 16'b0};
+                end
+
+                // Donghai Liao
+                `EXE_SLTI: begin                    // pass
+                    id_ex_alu_op        <= `EXE_SLTI_OP;
+                    id_ex_regfile_we    <= `WriteEnable;
+                    regfile_re1         <= `ReadEnable;
+                    regfile_re2         <= `ReadDisable;
+
+                    imm                 <= {{16{id_inst[15]}}, id_inst[15:0]};
+                    id_ex_regfile_waddr <= id_inst[20:16];
+                    regfile_raddr1      <= id_inst[26:21];
+                    regfile_raddr2      <= id_inst[15:11];
+
+                end
+
+                `EXE_SLTIU: begin                   // pass
+                    id_ex_alu_op        <= `EXE_SLTIU_OP;
+                    id_ex_regfile_we    <= `WriteEnable;
+                    regfile_re1         <= `ReadEnable;
+                    regfile_re2         <= `ReadDisable;
+
+                    imm                 <= {16'b0, id_inst[15:0]};
+                    id_ex_regfile_waddr <= id_inst[20:16];
+                    regfile_raddr1      <= id_inst[26:21];
+                    regfile_raddr2      <= id_inst[15:11];
+                end
+
+                `EXE_ADDI: begin                    // pass
+                    id_ex_alu_op        <= `EXE_ADDI_OP;
+                    id_ex_regfile_we    <= `WriteEnable;
+                    regfile_re1         <= `ReadEnable;
+                    regfile_re2         <= `ReadDisable;
+
+                    imm                 <= {{16{id_inst[15]}}, id_inst[15:0]};
+                    id_ex_regfile_waddr <= id_inst[20:16];
+                    regfile_raddr1      <= id_inst[26:21];
+                    regfile_raddr2      <= id_inst[15:11];
+                end
+                `EXE_ADDIU: begin                   // pass
+                    id_ex_alu_op        <= `EXE_ADDIU_OP;
+                    id_ex_regfile_we    <= `WriteEnable;
+                    regfile_re1         <= `ReadEnable;
+                    regfile_re2         <= `ReadDisable;
+
+                    imm                 <= {16'b0, id_inst[15:0]};
+                    id_ex_regfile_waddr <= id_inst[20:16];
+                    regfile_raddr1      <= id_inst[26:21];
+                    regfile_raddr2      <= id_inst[15:11];
                 end
                 
                 default: begin
